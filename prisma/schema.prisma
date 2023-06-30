@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator nestgraphql {
+  provider    = "prisma-nestjs-graphql"
+  output      = "../src/generated-dtos/"
+  reExport    = "All"
+  purgeOutput = "true"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model posts {
+  id          String   @id @default(dbgenerated("uuid_generate_v4()"))
+  title       String
+  description String
+  media       String[]
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
+  profile_id  String
+  profiles    profiles @relation(fields: [profile_id], references: [id])
+}
+
+model profiles {
+  id         String       @id @default(dbgenerated("uuid_generate_v4()"))
+  user_id    String
+  created_at DateTime     @default(now())
+  updated_at DateTime     @default(now())
+  type       profile_type
+  posts      posts[]
+  users      users        @relation(fields: [user_id], references: [id])
+
+  @@unique([user_id, type])
+}
+
+model users {
+  id          String       @id @default(dbgenerated("uuid_generate_v4()"))
+  username    String       @unique
+  email       String       @unique
+  password    String
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @default(now())
+  permissions permission[]
+  profiles    profiles[]
+}
+
+enum permission {
+  CREATE_USER
+  MODIFY_USER
+}
+
+enum profile_type {
+  LANDLORD
+  TENANT
+}

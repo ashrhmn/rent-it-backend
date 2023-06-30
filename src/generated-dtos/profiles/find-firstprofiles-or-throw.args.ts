@@ -1,0 +1,31 @@
+import { Field } from '@nestjs/graphql';
+import { ArgsType } from '@nestjs/graphql';
+import { profilesWhereInput } from './profiles-where.input';
+import { Type } from 'class-transformer';
+import { profilesOrderByWithRelationInput } from './profiles-order-by-with-relation.input';
+import { profilesWhereUniqueInput } from './profiles-where-unique.input';
+import { Int } from '@nestjs/graphql';
+import { ProfilesScalarFieldEnum } from '../prisma/profiles-scalar-field.enum';
+
+@ArgsType()
+export class FindFirstprofilesOrThrowArgs {
+
+    @Field(() => profilesWhereInput, {nullable:true})
+    @Type(() => profilesWhereInput)
+    where?: profilesWhereInput;
+
+    @Field(() => [profilesOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<profilesOrderByWithRelationInput>;
+
+    @Field(() => profilesWhereUniqueInput, {nullable:true})
+    cursor?: profilesWhereUniqueInput;
+
+    @Field(() => Int, {nullable:true})
+    take?: number;
+
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+
+    @Field(() => [ProfilesScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof ProfilesScalarFieldEnum>;
+}
