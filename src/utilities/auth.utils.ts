@@ -17,7 +17,7 @@ const validateTokenCache = async (
   cacheClient: RedisClientType,
 ) => {
   // console.log({ token });
-  const cache = await cacheClient.get(token);
+  const cache = await cacheClient.get(`token:${token}`);
   if (!cache || cache !== "valid")
     throw new Error("Token Cache Validation Failed");
 };
@@ -35,7 +35,7 @@ export const revokeTokenCache = async (
   [getAccessToken(req), getRefreshToken(req)]
     .filter(Boolean)
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    .forEach((token) => cacheClient.del(token).catch(() => {}));
+    .forEach((token) => cacheClient.del(`token:${token}`).catch(() => {}));
 
 export const getUser = async (req: Request, cacheClient: RedisClientType) => {
   try {
@@ -77,7 +77,7 @@ export const generateAccessToken = (
     },
   );
   // console.log("setting access_tokens in cache");
-  cacheClient.set(accessToken, "valid", {
+  cacheClient.set(`token:${accessToken}`, "valid", {
     EX: appConfig.env.JWT.ACCESS.TIMEOUT,
   });
   return accessToken;
@@ -95,7 +95,7 @@ export const generateRefreshToken = (
     },
   );
   // console.log("setting refresh_tokens in cache");
-  cacheClient.set(refreshToken, "valid", {
+  cacheClient.set(`token:${refreshToken}`, "valid", {
     EX: appConfig.env.JWT.REFRESH.TIMEOUT,
   });
   return refreshToken;
