@@ -9,7 +9,7 @@ export class LoginDto {
 }
 
 @ObjectType()
-export class LoginResponse {
+export class LoginResponseDto {
   @Field()
   accessToken: string;
   @Field()

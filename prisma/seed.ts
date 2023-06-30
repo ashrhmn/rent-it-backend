@@ -12,6 +12,7 @@ async function seedUser() {
         username: "ash",
         password: await hash("ash"),
         email: "ash@email.com",
+        permissions: ["CREATE_USER", "MODIFY_USER"],
       },
       {
         username: "dev",

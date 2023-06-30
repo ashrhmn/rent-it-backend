@@ -1,5 +1,5 @@
 import { appConfig } from "@/config";
-import { users } from "@prisma/client";
+import type { users } from "@prisma/client";
 import { Request } from "express";
 import { sign, verify } from "jsonwebtoken";
 
@@ -21,7 +21,6 @@ export const getUser = (req: Request) => {
     return null;
   }
 };
-
 export const getRefreshTokenUser = (req: Request) => {
   try {
     const refresh_token =

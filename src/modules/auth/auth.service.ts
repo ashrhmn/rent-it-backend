@@ -1,6 +1,6 @@
 import { appConfig } from "@/config";
 import { IContext } from "@/decorators";
-import { LoginDto, LoginResponse } from "@/modules/auth/dto/login.dto";
+import { LoginDto, LoginResponseDto } from "@/modules/auth/dto/login.dto";
 import { PrismaService } from "@/providers/database/prisma.service";
 import { generateTokens } from "@/utilities/auth.utils";
 import { BadRequestException, Injectable } from "@nestjs/common";
@@ -13,7 +13,7 @@ export class AuthService {
   async login(
     { password, usernameOrEmail }: LoginDto,
     context: IContext,
-  ): Promise<LoginResponse> {
+  ): Promise<LoginResponseDto> {
     const user = await this.prismaService.users.findFirst({
       where: {
         OR: [{ username: usernameOrEmail }, { email: usernameOrEmail }],

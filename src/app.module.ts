@@ -1,9 +1,10 @@
+import { AuthMiddleware } from "@/middlewares";
 import { AuthModule } from "@/modules/auth/auth.module";
 import { UserModule } from "@/modules/users/user.module";
 import { CacheModule } from "@/providers/cache/cache.module";
 import { PrismaModule } from "@/providers/database/prisma.module";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
 
 @Module({
@@ -17,6 +18,7 @@ import { GraphQLModule } from "@nestjs/graphql";
           "schema.polling.enable": true,
           "schema.polling.interval": 5000,
         },
+        title: "Rent It | GraphQL Playground",
       },
       sortSchema: true,
     }),
@@ -26,4 +28,8 @@ import { GraphQLModule } from "@nestjs/graphql";
     CacheModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes("*");
+  }
+}

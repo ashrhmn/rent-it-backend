@@ -12,7 +12,6 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -21,7 +20,15 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "db:reset": "prisma migrate reset --force",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio",
+    "db:pull": "prisma db pull && prisma generate",
+    "migration:create": "prisma migrate dev --schema prisma/migrator.schema --create-only --name",
+    "migration:run": "prisma migrate deploy --schema prisma/migrator.schema",
+    "predev": "npm run db:pull",
+    "prebuild": "npm run db:pull"
   },
   "dependencies": {
     "@apollo/server": "^4.7.5",
