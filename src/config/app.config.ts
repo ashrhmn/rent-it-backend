@@ -15,28 +15,36 @@ const envSchema = z
     ERROR_LOG: z.coerce.boolean().default(true),
     REQ_LOG: z.coerce.boolean().default(true),
     LOG_FILE: z.coerce.boolean().default(true),
-    SIGNER_PRIVATE_KEY: z.string(),
-    JWT_BEARER_SECRET: z.string(),
-    JWT_REFRESH_SECRET: z.string(),
-    TRADE_COMMISSION: z.coerce.number().default(1.5),
+    JWT_ACCESS_SECRET: z.string().default("access_secret"),
+    JWT_REFRESH_SECRET: z.string().default("refresh_secret"),
+    JWT_ACCESS_TIMEOUT: z.coerce.number().default(300),
+    JWT_REFRESH_TIMEOUT: z.coerce.number().default(86400 * 365),
     PORT: z.coerce.number().default(5001),
     NODE_ENV: z.enum(["development", "production"]).default("development"),
-    ALPACA_ORDER_MAX_RETRIES: z.coerce.number().default(1),
-    STOCK_TOKEN_LIST_CACHE_TIME: z.coerce.number().default(180),
-    POOL_POSITION_CACHE_TIME: z.coerce.number().default(180),
-    IGNORE_MARKET_CLOSED: z.coerce.boolean().default(false),
-    LOCAL_CHAINID_ENABLED: z.coerce.boolean().default(false),
-    LOCAL_CHAINID: z.coerce.number().default(31337),
-    LOCAL_FORK_CHAINID: z.coerce.number().default(5),
-    LOCAL_RPC_URL: z.string().default("http://localhost:8545"),
-    RPC_URLS: z.record(z.coerce.number(), z.string()).default({}),
   })
   .transform((envs) => {
+    const {
+      JWT_ACCESS_SECRET,
+      JWT_REFRESH_SECRET,
+      JWT_ACCESS_TIMEOUT,
+      JWT_REFRESH_TIMEOUT,
+      ...env
+    } = envs;
     return {
-      ...envs,
-      REDIS_URL: !!envs.REDIS_PASSWORD
-        ? `redis://:${envs.REDIS_PASSWORD}@${envs.REDIS_HOST}:${envs.REDIS_PORT}`
-        : `redis://${envs.REDIS_HOST}:${envs.REDIS_PORT}`,
+      ...env,
+      REDIS_URL: !!env.REDIS_PASSWORD
+        ? `redis://:${env.REDIS_PASSWORD}@${env.REDIS_HOST}:${env.REDIS_PORT}`
+        : `redis://${env.REDIS_HOST}:${env.REDIS_PORT}`,
+      JWT: {
+        ACCESS: {
+          SECRET: JWT_ACCESS_SECRET,
+          TIMEOUT: JWT_ACCESS_TIMEOUT,
+        },
+        REFRESH: {
+          SECRET: JWT_REFRESH_SECRET,
+          TIMEOUT: JWT_REFRESH_TIMEOUT,
+        },
+      },
     };
   });
 
@@ -62,6 +70,8 @@ const env = tryCatch(
     throw new Error(`ENV ${fromZodError(error).message}`);
   },
 );
+
+if (env.DEBUG_LOG) console.log({ env });
 
 export const appConfig = {
   default_schema_identifier: "public",
