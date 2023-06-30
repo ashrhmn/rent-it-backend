@@ -17,7 +17,7 @@ const envSchema = z
     LOG_FILE: z.coerce.boolean().default(true),
     JWT_ACCESS_SECRET: z.string().default("access_secret"),
     JWT_REFRESH_SECRET: z.string().default("refresh_secret"),
-    JWT_ACCESS_TIMEOUT: z.coerce.number().default(300),
+    JWT_ACCESS_TIMEOUT: z.coerce.number().default(20),
     JWT_REFRESH_TIMEOUT: z.coerce.number().default(86400 * 365),
     PORT: z.coerce.number().default(5001),
     NODE_ENV: z.enum(["development", "production"]).default("development"),
@@ -71,7 +71,7 @@ const env = tryCatch(
   },
 );
 
-if (env.DEBUG_LOG) console.log({ env });
+// if (env.DEBUG_LOG) console.log({ env });
 
 export const appConfig = {
   default_schema_identifier: "public",

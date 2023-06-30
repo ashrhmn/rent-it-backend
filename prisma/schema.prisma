@@ -5,8 +5,8 @@ generator client {
 generator nestgraphql {
   provider    = "prisma-nestjs-graphql"
   output      = "../src/generated-dtos/"
-  purgeOutput = "true"
   reExport    = "All"
+  purgeOutput = "true"
 }
 
 datasource db {

@@ -1,14 +1,26 @@
 import { appConfig } from "@/config";
-import { IContext } from "@/decorators";
+import { IContext, ICurrentUser } from "@/decorators";
 import { LoginDto, LoginResponseDto } from "@/modules/auth/dto/login.dto";
+import { CacheService } from "@/providers/cache/cache.service";
 import { PrismaService } from "@/providers/database/prisma.service";
-import { generateTokens } from "@/utilities/auth.utils";
-import { BadRequestException, Injectable } from "@nestjs/common";
+import {
+  IAuthUser,
+  generateTokens,
+  revokeTokenCache,
+} from "@/utilities/auth.utils";
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { verify } from "argon2";
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly cacheService: CacheService,
+  ) {}
 
   async login(
     { password, usernameOrEmail }: LoginDto,
@@ -31,7 +43,10 @@ export class AuthService {
     if (!validPassword)
       throw new BadRequestException("Invalid Username or Password");
 
-    const { accessToken, refreshToken } = generateTokens(user);
+    const { accessToken, refreshToken } = generateTokens(
+      user,
+      this.cacheService.getClient(),
+    );
 
     context.res.cookie("authorization", accessToken, {
       httpOnly: true,
@@ -46,5 +61,18 @@ export class AuthService {
     });
 
     return { accessToken, refreshToken };
+  }
+
+  currentUser(user: ICurrentUser): IAuthUser {
+    if (!user) throw new UnauthorizedException();
+    return user;
+  }
+
+  logout(user: ICurrentUser, context: IContext): string {
+    if (!user) throw new UnauthorizedException();
+    context.res.clearCookie("authorization");
+    context.res.clearCookie("refresh_token");
+    revokeTokenCache(context.req, this.cacheService.getClient());
+    return "success";
   }
 }

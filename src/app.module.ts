@@ -15,12 +15,13 @@ import { GraphQLModule } from "@nestjs/graphql";
       playground: {
         settings: {
           "request.credentials": "include",
-          "schema.polling.enable": true,
-          "schema.polling.interval": 5000,
+          // "schema.polling.enable": false,
+          // "schema.polling.interval": 5000,
         },
         title: "Rent It | GraphQL Playground",
       },
       sortSchema: true,
+      context: ({ req, res }) => ({ req, res }),
     }),
     UserModule,
     PrismaModule,

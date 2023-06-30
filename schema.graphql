@@ -26,6 +26,7 @@ type LoginResponseDto {
 
 type Mutation {
   createUser(data: usersCreateInput!): users!
+  logout: String!
 }
 
 type PostsCountAggregate {

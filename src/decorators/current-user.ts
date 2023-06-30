@@ -1,27 +1,11 @@
-import { IContext } from "@/decorators/context";
 import { IAuthUser } from "@/utilities/auth.utils";
-import {
-  createParamDecorator,
-  ExecutionContext,
-  HttpException,
-  HttpStatus,
-} from "@nestjs/common";
-import { GqlExecutionContext } from "@nestjs/graphql";
+import { extractExecutionContext } from "@/utilities/context.utils";
+import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 
-export type ICurrentUser = IAuthUser;
+export type ICurrentUser = IAuthUser | null;
 
 export const CurrentUser = createParamDecorator(
   (_, context: ExecutionContext) => {
-    const req: IContext["req"] = {
-      http: context.switchToHttp().getRequest(),
-      graphql: GqlExecutionContext.create(context).getContext().req,
-    }[context.getType()];
-
-    if (!req)
-      throw new HttpException(
-        "Not implemented",
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    return req.user || null;
+    return extractExecutionContext(context).req.user || null;
   },
 );

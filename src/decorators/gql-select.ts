@@ -10,7 +10,7 @@ export const GqlSelect = createParamDecorator(
       return select;
     } catch (error) {
       console.warn(`GqlSelect Error : ${error}`);
-      return {};
+      return undefined;
     }
   },
 );
