@@ -1,3 +1,4 @@
+import { PermissionsGuard } from "@/guards/permission.guard";
 import { AuthMiddleware } from "@/middlewares";
 import { AuthModule } from "@/modules/auth/auth.module";
 import { UserModule } from "@/modules/users/user.module";
@@ -5,6 +6,7 @@ import { CacheModule } from "@/providers/cache/cache.module";
 import { PrismaModule } from "@/providers/database/prisma.module";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { APP_GUARD } from "@nestjs/core";
 import { GraphQLModule } from "@nestjs/graphql";
 
 @Module({
@@ -28,6 +30,7 @@ import { GraphQLModule } from "@nestjs/graphql";
     AuthModule,
     CacheModule,
   ],
+  providers: [{ provide: APP_GUARD, useClass: PermissionsGuard }],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

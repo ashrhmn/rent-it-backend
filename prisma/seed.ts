@@ -18,11 +18,13 @@ async function seedUser() {
         username: "dev",
         password: await hash("dev"),
         email: "dev@email.com",
+        permissions: ["CREATE_USER"],
       },
       {
         username: "admin",
         password: await hash("admin"),
         email: "admin@email.com",
+        permissions: ["MODIFY_USER"],
       },
     ],
     skipDuplicates: true,
