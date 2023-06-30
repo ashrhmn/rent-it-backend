@@ -1,5 +1,4 @@
-import { AppController } from "@/app.controller";
-import { AppService } from "@/app.service";
+import { AuthModule } from "@/modules/auth/auth.module";
 import { UserModule } from "@/modules/users/user.module";
 import { PrismaModule } from "@/providers/database/prisma.module";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
@@ -11,13 +10,18 @@ import { GraphQLModule } from "@nestjs/graphql";
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: "schema.graphql",
-      playground: true,
+      playground: {
+        settings: {
+          "request.credentials": "include",
+          "schema.polling.enable": true,
+          "schema.polling.interval": 5000,
+        },
+      },
       sortSchema: true,
     }),
     UserModule,
     PrismaModule,
+    AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
