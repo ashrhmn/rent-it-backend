@@ -10,11 +10,11 @@
     "schema": "src/prisma/schema.prisma"
   },
   "scripts": {
-    "build": "nest build",
+    "build": "npm run db:pull && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
+    "dev": "npm run db:pull && nest start --watch",
+    "start:debug": "npm run db:pull && nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
@@ -27,9 +27,7 @@
     "db:studio": "prisma studio",
     "db:pull": "prisma db pull && prisma generate",
     "migration:create": "prisma migrate dev --schema src/prisma/migrator.prisma --create-only --name",
-    "migration:run": "prisma migrate deploy --schema src/prisma/migrator.prisma",
-    "predev": "npm run db:pull",
-    "prebuild": "npm run db:pull"
+    "migration:run": "prisma migrate deploy --schema src/prisma/migrator.prisma"
   },
   "dependencies": {
     "@apollo/server": "^4.7.5",
