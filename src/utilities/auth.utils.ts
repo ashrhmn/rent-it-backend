@@ -1,5 +1,5 @@
 import { appConfig } from "@/config";
-import type { users } from "@prisma/client";
+import type { users } from "@/generated/client";
 import { Request } from "express";
 import { sign, verify } from "jsonwebtoken";
 import { RedisClientType } from "redis";

@@ -1,4 +1,4 @@
-import { CreateOneusersArgs, FindManyusersArgs } from "@/generated-dtos";
+import { CreateOneusersArgs, FindManyusersArgs } from "@/generated/dtos";
 import { PrismaService } from "@/providers/database/prisma.service";
 import { Injectable } from "@nestjs/common";
 

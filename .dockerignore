@@ -4,3 +4,4 @@ dist
 .vscode
 Dockerfile
 docker-compose.*
+src/generated

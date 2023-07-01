@@ -4,14 +4,16 @@ import { ExecutionContext, HttpException, HttpStatus } from "@nestjs/common";
 import { GqlExecutionContext } from "@nestjs/graphql";
 import { Response } from "express";
 
-export const extractExecutionContext = (context: ExecutionContext) => {
+export const extractExecutionContext = (
+  context: ExecutionContext,
+): IContext => {
   const req: IContext["req"] = {
     http: context.switchToHttp().getRequest(),
     graphql: GqlExecutionContext.create(context).getContext().req,
   }[context.getType()];
   const res: Response = {
     http: context.switchToHttp().getResponse(),
-    graphql: GqlExecutionContext.create(context).getContext().req.res,
+    graphql: GqlExecutionContext.create(context).getContext().res,
   }[context.getType()];
 
   if (!req)

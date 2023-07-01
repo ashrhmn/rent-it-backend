@@ -1,3 +1,4 @@
+import { permission } from "@/generated/client";
 import { extractExecutionContext } from "@/utilities/context.utils";
 import {
   CanActivate,
@@ -6,7 +7,6 @@ import {
   SetMetadata,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { permission } from "@prisma/client";
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {

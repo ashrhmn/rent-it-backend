@@ -1,10 +1,11 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../generated/client/"
 }
 
 generator nestgraphql {
   provider    = "prisma-nestjs-graphql"
-  output      = "../generated-dtos/"
+  output      = "../generated/dtos/"
   purgeOutput = "true"
   reExport    = "All"
 }

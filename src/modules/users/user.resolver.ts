@@ -1,7 +1,8 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 
 import { GqlSelect } from "@/decorators";
-import { CreateOneusersArgs, FindManyusersArgs, users } from "@/generated-dtos";
+
+import { CreateOneusersArgs, FindManyusersArgs, users } from "@/generated/dtos";
 import { UserService } from "@/modules/users/user.service";
 
 @Resolver()
