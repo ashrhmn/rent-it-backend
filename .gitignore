@@ -36,3 +36,4 @@ lerna-debug.log*
 
 # Generated
 src/generated*
+schema.graphql
