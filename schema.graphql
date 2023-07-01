@@ -27,6 +27,8 @@ type LoginResponseDto {
 type Mutation {
   createUser(data: usersCreateInput!): users!
   logout: String!
+  refreshToken: String!
+  signUp(data: SignUpDto!): String!
 }
 
 type PostsCountAggregate {
@@ -93,6 +95,18 @@ type Query {
   login(data: LoginDto!): LoginResponseDto!
 }
 
+input SignUpDto {
+  confirmPassword: String!
+  dateOfBirth: Float!
+  email: String!
+  password: String!
+  username: String!
+}
+
+type UsersAvgAggregate {
+  date_of_birth: Float
+}
+
 type UsersCount {
   profiles: Int!
 }
@@ -100,6 +114,7 @@ type UsersCount {
 type UsersCountAggregate {
   _all: Int!
   created_at: Int!
+  date_of_birth: Int!
   email: Int!
   id: Int!
   password: Int!
@@ -110,6 +125,7 @@ type UsersCountAggregate {
 
 type UsersMaxAggregate {
   created_at: DateTime
+  date_of_birth: Int
   email: String
   id: String
   password: String
@@ -119,11 +135,16 @@ type UsersMaxAggregate {
 
 type UsersMinAggregate {
   created_at: DateTime
+  date_of_birth: Int
   email: String
   id: String
   password: String
   updated_at: DateTime
   username: String
+}
+
+type UsersSumAggregate {
+  date_of_birth: Int
 }
 
 enum permission {
@@ -246,6 +267,7 @@ input profilesWhereUniqueInput {
 type users {
   _count: UsersCount!
   created_at: DateTime!
+  date_of_birth: Int!
   email: String!
   id: ID!
   password: String!
@@ -257,6 +279,7 @@ type users {
 
 input usersCreateInput {
   created_at: DateTime
+  date_of_birth: Int!
   email: String!
   id: String
   password: String!

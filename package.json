@@ -25,8 +25,8 @@
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "db:pull": "prisma db pull && prisma generate",
-    "migration:create": "prisma migrate dev --schema prisma/migrator.schema --create-only --name",
-    "migration:run": "prisma migrate deploy --schema prisma/migrator.schema",
+    "migration:create": "prisma migrate dev --schema prisma/migrator.prisma --create-only --name",
+    "migration:run": "prisma migrate deploy --schema prisma/migrator.prisma",
     "predev": "npm run db:pull",
     "prebuild": "npm run db:pull"
   },
@@ -42,6 +42,7 @@
     "apollo-server-core": "^3.12.0",
     "argon2": "^0.30.3",
     "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
     "cookie-parser": "^1.4.6",
     "graphql": "^16.7.1",
     "jsonwebtoken": "^9.0.0",

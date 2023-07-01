@@ -38,14 +38,15 @@ model profiles {
 }
 
 model users {
-  id          String       @id @default(dbgenerated("uuid_generate_v4()"))
-  username    String       @unique
-  email       String       @unique
-  password    String
-  created_at  DateTime     @default(now())
-  updated_at  DateTime     @default(now())
-  permissions permission[]
-  profiles    profiles[]
+  id            String       @id @default(dbgenerated("uuid_generate_v4()"))
+  username      String       @unique
+  email         String       @unique
+  password      String
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @default(now())
+  permissions   permission[]
+  date_of_birth Int
+  profiles      profiles[]
 }
 
 enum permission {
