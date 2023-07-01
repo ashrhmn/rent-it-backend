@@ -6,7 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node src/prisma/seed.ts",
+    "schema": "src/prisma/schema.prisma"
   },
   "scripts": {
     "build": "nest build",
@@ -25,8 +26,8 @@
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "db:pull": "prisma db pull && prisma generate",
-    "migration:create": "prisma migrate dev --schema prisma/migrator.prisma --create-only --name",
-    "migration:run": "prisma migrate deploy --schema prisma/migrator.prisma",
+    "migration:create": "prisma migrate dev --schema src/prisma/migrator.prisma --create-only --name",
+    "migration:run": "prisma migrate deploy --schema src/prisma/migrator.prisma",
     "predev": "npm run db:pull",
     "prebuild": "npm run db:pull"
   },
