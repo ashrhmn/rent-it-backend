@@ -27,12 +27,14 @@ export const extractExecutionContext = (
       httpOnly: true,
       expires: new Date(Date.now() + appConfig.env.JWT.ACCESS.TIMEOUT * 1000),
       secure: appConfig.env.NODE_ENV === "production",
+      sameSite: "strict",
     });
   if (!!req.refresh_token)
     res.cookie("refresh_token", req.refresh_token, {
       httpOnly: true,
       expires: new Date(Date.now() + appConfig.env.JWT.REFRESH.TIMEOUT * 1000),
       secure: appConfig.env.NODE_ENV === "production",
+      sameSite: "strict",
     });
   return { req, res };
 };

@@ -55,12 +55,14 @@ export class AuthService {
       httpOnly: true,
       secure: appConfig.env.NODE_ENV === "production",
       expires: new Date(Date.now() + appConfig.env.JWT.ACCESS.TIMEOUT * 1000),
+      sameSite: "strict",
     });
 
     context.res.cookie("refresh_token", refreshToken, {
       httpOnly: true,
       secure: appConfig.env.NODE_ENV === "production",
       expires: new Date(Date.now() + appConfig.env.JWT.REFRESH.TIMEOUT * 1000),
+      sameSite: "strict",
     });
 
     return { accessToken, refreshToken };
@@ -100,6 +102,7 @@ export class AuthService {
       httpOnly: true,
       secure: appConfig.env.NODE_ENV === "production",
       expires: new Date(Date.now() + appConfig.env.JWT.ACCESS.TIMEOUT * 1000),
+      sameSite: "strict",
     });
     return accessToken;
   }

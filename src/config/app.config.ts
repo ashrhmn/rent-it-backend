@@ -19,7 +19,7 @@ const envSchema = z
     JWT_REFRESH_SECRET: z.string().default("refresh_secret"),
     JWT_ACCESS_TIMEOUT: z.coerce.number().default(20),
     JWT_REFRESH_TIMEOUT: z.coerce.number().default(86400 * 365),
-    PORT: z.coerce.number().default(5001),
+    PORT: z.coerce.number().default(4000),
     NODE_ENV: z.enum(["development", "production"]).default("development"),
   })
   .transform((envs) => {
