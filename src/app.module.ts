@@ -5,6 +5,8 @@ import { UserModule } from "@/modules/users/user.module";
 import { CacheModule } from "@/providers/cache/cache.module";
 import { PrismaModule } from "@/providers/database/prisma.module";
 // import { YogaDriver, YogaDriverConfig } from "@graphql-yoga/nestjs";
+
+import { ProfileModule } from "@/modules/profile/profile.module";
 import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
@@ -32,11 +34,24 @@ import { GraphQLModule } from "@nestjs/graphql";
           includeCookies: true,
         }),
       ],
+      formatError: ({ message, extensions, locations, path }) => {
+        message =
+          (extensions?.originalError as any)?.statusCode === 403
+            ? "You are not authorized to perform this action"
+            : message;
+        return {
+          message,
+          extensions,
+          locations,
+          path,
+        };
+      },
     }),
     UserModule,
     PrismaModule,
     AuthModule,
     CacheModule,
+    ProfileModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: PermissionsGuard }],
 })

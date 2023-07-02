@@ -27,13 +27,16 @@ model users {
 }
 
 model profiles {
-  id         String       @id @default(dbgenerated("uuid_generate_v4()"))
-  user_id    String
-  type       profile_type
-  created_at DateTime     @default(now())
-  updated_at DateTime     @default(now()) @updatedAt
-  user       users        @relation(fields: [user_id], references: [id])
-  posts      posts[]
+  id          String       @id @default(dbgenerated("uuid_generate_v4()"))
+  user_id     String
+  type        profile_type
+  name        String
+  bio         String?
+  description String?
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @default(now()) @updatedAt
+  user        users        @relation(fields: [user_id], references: [id])
+  posts       posts[]
 
   @@unique([user_id, type])
 }

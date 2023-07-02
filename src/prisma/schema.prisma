@@ -6,8 +6,8 @@ generator client {
 generator nestgraphql {
   provider    = "prisma-nestjs-graphql"
   output      = "../generated/dtos/"
-  reExport    = "All"
   purgeOutput = "true"
+  reExport    = "All"
 }
 
 datasource db {
@@ -27,13 +27,16 @@ model posts {
 }
 
 model profiles {
-  id         String       @id @default(dbgenerated("uuid_generate_v4()"))
-  user_id    String
-  created_at DateTime     @default(now())
-  updated_at DateTime     @default(now())
-  type       profile_type
-  posts      posts[]
-  users      users        @relation(fields: [user_id], references: [id])
+  id          String       @id @default(dbgenerated("uuid_generate_v4()"))
+  user_id     String
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @default(now())
+  type        profile_type
+  bio         String?
+  description String?
+  name        String
+  posts       posts[]
+  users       users        @relation(fields: [user_id], references: [id])
 
   @@unique([user_id, type])
 }
