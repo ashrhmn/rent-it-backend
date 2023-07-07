@@ -31,6 +31,12 @@ export class AuthMiddleware implements NestMiddleware {
         username: refreshTokenUser.username,
         id: refreshTokenUser.id,
       },
+      select: {
+        email: true,
+        id: true,
+        username: true,
+        permissions: true,
+      },
     });
     if (!dbUser) return next();
     req.access_token = generateAccessToken(dbUser, cacheClient);

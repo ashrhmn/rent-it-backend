@@ -1,5 +1,4 @@
 import { Context, CurrentUser, IContext, ICurrentUser } from "@/decorators";
-import { Permission } from "@/guards";
 import { AuthService } from "@/modules/auth/auth.service";
 import { CurrentUserResponseDto } from "@/modules/auth/dto/current-user.dto";
 import { LoginDto, LoginResponseDto } from "@/modules/auth/dto/login.dto";
@@ -25,7 +24,6 @@ export class AuthResolver {
     return this.authService.currentUser(user);
   }
 
-  @Permission("MODIFY_USER")
   @Mutation(() => String)
   logout(@CurrentUser() user: ICurrentUser, @Context() context: IContext) {
     return this.authService.logout(user, context);
