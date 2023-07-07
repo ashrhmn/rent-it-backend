@@ -27,18 +27,32 @@ model users {
 }
 
 model profiles {
-  id          String       @id @default(dbgenerated("uuid_generate_v4()"))
-  user_id     String
-  type        profile_type
-  name        String
-  bio         String?
-  description String?
-  created_at  DateTime     @default(now())
-  updated_at  DateTime     @default(now()) @updatedAt
-  user        users        @relation(fields: [user_id], references: [id])
-  posts       posts[]
+  id               String       @id @default(dbgenerated("uuid_generate_v4()"))
+  user_id          String
+  type             profile_type
+  name             String
+  bio              String?
+  description      String?
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @default(now()) @updatedAt
+  user             users        @relation(fields: [user_id], references: [id])
+  posts            posts[]
+  sent_reviews     reviews[]    @relation("sent_reviews")
+  received_reviews reviews[]    @relation("received_reviews")
 
   @@unique([user_id, type])
+}
+
+model reviews {
+  id                     String   @id @default(dbgenerated("uuid_generate_v4()"))
+  stars                  Int
+  comment                String?
+  sent_by_profile_id     String
+  received_by_profile_id String
+  sent_by_profile        profiles @relation(name: "sent_reviews", fields: [sent_by_profile_id], references: [id])
+  received_by_profile    profiles @relation(name: "received_reviews", fields: [received_by_profile_id], references: [id])
+  created_at             DateTime @default(now())
+  updated_at             DateTime @default(now()) @updatedAt
 }
 
 model posts {
