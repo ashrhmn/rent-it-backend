@@ -14,7 +14,7 @@ export class UserResolver {
   }
 
   @Query(() => [users])
-  getAllUsers(args: FindManyusersArgs, @GqlSelect() select) {
+  getAllUsers(@Args() args: FindManyusersArgs, @GqlSelect() select) {
     return this.userService.getAllUsers({ args, select });
   }
 
