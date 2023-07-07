@@ -6,8 +6,8 @@ generator client {
 generator nestgraphql {
   provider    = "prisma-nestjs-graphql"
   output      = "../generated/dtos/"
-  purgeOutput = "true"
   reExport    = "All"
+  purgeOutput = "true"
 }
 
 datasource db {
@@ -27,16 +27,18 @@ model posts {
 }
 
 model profiles {
-  id          String       @id @default(dbgenerated("uuid_generate_v4()"))
-  user_id     String
-  created_at  DateTime     @default(now())
-  updated_at  DateTime     @default(now())
-  type        profile_type
-  bio         String?
-  description String?
-  name        String
-  posts       posts[]
-  users       users        @relation(fields: [user_id], references: [id])
+  id               String       @id @default(dbgenerated("uuid_generate_v4()"))
+  user_id          String
+  created_at       DateTime     @default(now())
+  updated_at       DateTime     @default(now())
+  type             profile_type
+  bio              String?
+  description      String?
+  name             String
+  posts            posts[]
+  users            users        @relation(fields: [user_id], references: [id])
+  received_reviews reviews[]    @relation("received_reviews")
+  sent_reviews     reviews[]    @relation("sent_reviews")
 
   @@unique([user_id, type])
 }
@@ -52,6 +54,18 @@ model users {
   date_of_birth     Int
   email_verified_at DateTime?
   profiles          profiles[]
+}
+
+model reviews {
+  id                     String   @id @default(dbgenerated("uuid_generate_v4()"))
+  stars                  Int
+  comment                String?
+  sent_by_profile_id     String
+  received_by_profile_id String
+  created_at             DateTime @default(now())
+  updated_at             DateTime @default(now())
+  received_by_profile    profiles @relation("received_reviews", fields: [received_by_profile_id], references: [id])
+  sent_by_profile        profiles @relation("sent_reviews", fields: [sent_by_profile_id], references: [id])
 }
 
 enum permission {
