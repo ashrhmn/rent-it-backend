@@ -1,5 +1,6 @@
-import { PrismaClient } from "@/generated/client";
 import { hash } from "argon2";
+// eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
+import { PrismaClient } from "../generated/client";
 
 const prisma = new PrismaClient();
 
