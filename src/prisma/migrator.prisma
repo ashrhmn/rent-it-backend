@@ -63,7 +63,7 @@ enum review_category {
 
 model reviews {
   id                     String          @id @default(dbgenerated("uuid_generate_v4()"))
-  stars                  Int
+  stars                  Int?
   comment                String?
   category               review_category
   sent_by_profile_id     String

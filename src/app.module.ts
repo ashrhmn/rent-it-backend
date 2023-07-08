@@ -7,6 +7,7 @@ import { PrismaModule } from "@/providers/database/prisma.module";
 // import { YogaDriver, YogaDriverConfig } from "@graphql-yoga/nestjs";
 
 import { ProfileModule } from "@/modules/profile/profile.module";
+import { ReviewModule } from "@/modules/review/review.module";
 import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
@@ -52,6 +53,7 @@ import { GraphQLModule } from "@nestjs/graphql";
     AuthModule,
     CacheModule,
     ProfileModule,
+    ReviewModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: PermissionsGuard }],
 })

@@ -63,7 +63,7 @@ model users {
 
 model reviews {
   id                     String          @id @default(dbgenerated("uuid_generate_v4()"))
-  stars                  Int
+  stars                  Int?
   comment                String?
   sent_by_profile_id     String
   received_by_profile_id String
