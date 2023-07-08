@@ -27,32 +27,53 @@ model users {
 }
 
 model profiles {
-  id               String       @id @default(dbgenerated("uuid_generate_v4()"))
-  user_id          String
-  type             profile_type
-  name             String
-  bio              String?
-  description      String?
-  created_at       DateTime     @default(now())
-  updated_at       DateTime     @default(now()) @updatedAt
-  user             users        @relation(fields: [user_id], references: [id])
-  posts            posts[]
-  sent_reviews     reviews[]    @relation("sent_reviews")
-  received_reviews reviews[]    @relation("received_reviews")
+  id                      String       @id @default(dbgenerated("uuid_generate_v4()"))
+  user_id                 String
+  type                    profile_type
+  name                    String
+  bio                     String?
+  description             String?
+  created_at              DateTime     @default(now())
+  updated_at              DateTime     @default(now()) @updatedAt
+  user                    users        @relation(fields: [user_id], references: [id])
+  posts                   posts[]
+  sent_reviews            reviews[]    @relation("sent_reviews")
+  received_reviews        reviews[]    @relation("received_reviews")
+  property_street_address String?
+  property_house_number   String?
+  property_city           String?
+  property_postcode       String?
+  property_state          String?
 
   @@unique([user_id, type])
 }
 
+enum review_category {
+  SPEED_OF_REPAIRD
+  HANDLING_DEPOSITS
+  COMMUNICATION
+  MOVING_IN
+  MOVING_OUT
+  SECURITY
+  VALUE_FOR_MONEY
+  STATE_OF_PROPERTY
+  CLEANLINESS
+  MAINTENANCE
+}
+
 model reviews {
-  id                     String   @id @default(dbgenerated("uuid_generate_v4()"))
+  id                     String          @id @default(dbgenerated("uuid_generate_v4()"))
   stars                  Int
   comment                String?
+  category               review_category
   sent_by_profile_id     String
   received_by_profile_id String
-  sent_by_profile        profiles @relation(name: "sent_reviews", fields: [sent_by_profile_id], references: [id])
-  received_by_profile    profiles @relation(name: "received_reviews", fields: [received_by_profile_id], references: [id])
-  created_at             DateTime @default(now())
-  updated_at             DateTime @default(now()) @updatedAt
+  sent_by_profile        profiles        @relation(name: "sent_reviews", fields: [sent_by_profile_id], references: [id])
+  received_by_profile    profiles        @relation(name: "received_reviews", fields: [received_by_profile_id], references: [id])
+  created_at             DateTime        @default(now())
+  updated_at             DateTime        @default(now()) @updatedAt
+
+  @@unique([sent_by_profile_id, received_by_profile_id, category])
 }
 
 model posts {

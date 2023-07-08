@@ -1,5 +1,9 @@
 import { CurrentUser, GqlSelect, ICurrentUser } from "@/decorators";
-import { FindManyprofilesArgs, profiles } from "@/generated/dtos";
+import {
+  FindFirstprofilesArgs,
+  FindManyprofilesArgs,
+  profiles,
+} from "@/generated/dtos";
 import { CreateProfileInput } from "@/modules/profile/dto/create-profile.input";
 import { ProfileService } from "@/modules/profile/profile.service";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
@@ -19,5 +23,10 @@ export class ProfileResolver {
   @Query(() => [profiles])
   async getProfiles(@Args() args: FindManyprofilesArgs, @GqlSelect() select) {
     return this.profileService.getProfiles({ args, select });
+  }
+
+  @Query(() => profiles)
+  async getProfile(@Args() args: FindFirstprofilesArgs, @GqlSelect() select) {
+    return this.profileService.getProfile({ args, select });
   }
 }

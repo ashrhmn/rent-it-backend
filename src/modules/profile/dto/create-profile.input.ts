@@ -16,6 +16,26 @@ export class CreateProfileInput {
   @IsOptional()
   description: string;
 
+  @Field({ nullable: true })
+  @IsOptional()
+  property_city: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  property_house_number: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  property_postcode: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  property_state: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  property_street_address: string;
+
   @Field(() => profile_type)
   @IsNotEmpty()
   type: profile_type;
