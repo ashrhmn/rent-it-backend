@@ -1,3 +1,5 @@
+[![wakatime](https://wakatime.com/badge/user/3df86613-ba63-4631-8e65-0ff18e7becad/project/ef9dde92-6c6f-4f98-a221-39f3ce3e6f33.svg)](https://wakatime.com/badge/user/3df86613-ba63-4631-8e65-0ff18e7becad/project/ef9dde92-6c6f-4f98-a221-39f3ce3e6f33)
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
