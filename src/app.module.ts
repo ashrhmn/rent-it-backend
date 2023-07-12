@@ -6,10 +6,14 @@ import { CacheModule } from "@/providers/cache/cache.module";
 import { PrismaModule } from "@/providers/database/prisma.module";
 // import { YogaDriver, YogaDriverConfig } from "@graphql-yoga/nestjs";
 
+import { appConfig } from "@/config";
 import { ProfileModule } from "@/modules/profile/profile.module";
 import { ReviewModule } from "@/modules/review/review.module";
 import { TenantFormSubmissionModule } from "@/modules/tenant-form-submission/tfs.module";
-import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
+import {
+  ApolloServerPluginLandingPageLocalDefault,
+  ApolloServerPluginLandingPageProductionDefault,
+} from "@apollo/server/plugin/landingPage/default";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
@@ -32,9 +36,17 @@ import { GraphQLModule } from "@nestjs/graphql";
       sortSchema: true,
       context: ({ req, res }) => ({ req, res }),
       plugins: [
-        ApolloServerPluginLandingPageLocalDefault({
-          includeCookies: true,
-        }),
+        ...(appConfig.env.NODE_ENV === "development"
+          ? [
+              ApolloServerPluginLandingPageLocalDefault({
+                includeCookies: true,
+              }),
+            ]
+          : [
+              ApolloServerPluginLandingPageProductionDefault({
+                includeCookies: true,
+              }),
+            ]),
       ],
       formatError: ({ message, extensions, locations, path }) => {
         message =
