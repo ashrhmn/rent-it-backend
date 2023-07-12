@@ -48,6 +48,7 @@ import { GraphQLModule } from "@nestjs/graphql";
               }),
             ]),
       ],
+      introspection: true,
       formatError: ({ message, extensions, locations, path }) => {
         message =
           (extensions?.originalError as any)?.statusCode === 403
