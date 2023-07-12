@@ -27,10 +27,10 @@ model posts {
 }
 
 model profiles {
-  id                      String       @id @default(dbgenerated("uuid_generate_v4()"))
+  id                      String                    @id @default(dbgenerated("uuid_generate_v4()"))
   user_id                 String
-  created_at              DateTime     @default(now())
-  updated_at              DateTime     @default(now())
+  created_at              DateTime                  @default(now())
+  updated_at              DateTime                  @default(now())
   type                    profile_type
   bio                     String?
   description             String?
@@ -41,9 +41,10 @@ model profiles {
   property_state          String?
   property_street_address String?
   posts                   posts[]
-  user                    users        @relation(fields: [user_id], references: [id])
-  received_reviews        reviews[]    @relation("received_reviews")
-  sent_reviews            reviews[]    @relation("sent_reviews")
+  user                    users                     @relation(fields: [user_id], references: [id])
+  received_reviews        reviews[]                 @relation("received_reviews")
+  sent_reviews            reviews[]                 @relation("sent_reviews")
+  tenant_form_submissions tenant_form_submissions[]
 
   @@unique([user_id, type])
 }
@@ -74,6 +75,19 @@ model reviews {
   sent_by_profile        profiles        @relation("sent_reviews", fields: [sent_by_profile_id], references: [id])
 
   @@unique([sent_by_profile_id, received_by_profile_id, category])
+}
+
+model tenant_form_submissions {
+  id                 String   @id @default(dbgenerated("uuid_generate_v4()"))
+  name               String
+  surname            String
+  email              String
+  phone              String
+  duration_in_months Int
+  from_profile_id    String
+  created_at         DateTime @default(now())
+  updated_at         DateTime @default(now())
+  profiles           profiles @relation(fields: [from_profile_id], references: [id])
 }
 
 enum permission {
