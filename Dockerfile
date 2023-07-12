@@ -4,9 +4,9 @@ WORKDIR /app
 COPY package.json yarn.lock /app/
 RUN yarn install
 COPY . /app
-# RUN yarn migration:run
-# RUN yarn db:seed
+RUN yarn migration:run
 RUN yarn build
+RUN yarn db:seed
 
 FROM node:16-alpine
 
