@@ -13,6 +13,6 @@ COPY package.json yarn.lock /app/
 RUN yarn install --frozen-lockfile --production
 COPY .env /app/
 COPY --from=builder /app/dist /app/dist
-ENV REDIS_HOST=host.docker.internal
+ENV REDIS_HOST=redis
 
 CMD ["node", "dist/main.js"]
