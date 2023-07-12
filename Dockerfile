@@ -2,7 +2,7 @@ FROM node:16-alpine as builder
 
 WORKDIR /app
 COPY package.json yarn.lock /app/
-RUN yarn install --frozen-lockfile
+RUN yarn install
 COPY . /app
 RUN yarn migration:run
 RUN yarn db:seed
@@ -12,7 +12,7 @@ FROM node:16-alpine
 
 WORKDIR /app
 COPY package.json yarn.lock /app/
-RUN yarn install --frozen-lockfile --production
+RUN yarn install --production
 COPY .env /app/
 COPY --from=builder /app/dist /app/dist
 ENV REDIS_HOST=redis
