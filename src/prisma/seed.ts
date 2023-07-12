@@ -5,6 +5,8 @@ import { PrismaClient } from "../generated/client";
 const prisma = new PrismaClient();
 
 async function seedUser() {
+  const count = await prisma.users.count();
+  if (count > 0) return;
   await prisma.users.createMany({
     data: [
       {

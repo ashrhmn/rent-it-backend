@@ -4,6 +4,8 @@ WORKDIR /app
 COPY package.json yarn.lock /app/
 RUN yarn install --frozen-lockfile
 COPY . /app
+RUN yarn migration:run
+RUN yarn db:seed
 RUN yarn build
 
 FROM node:16-alpine
