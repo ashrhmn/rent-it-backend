@@ -45,3 +45,5 @@ schema.graphql
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+.env
