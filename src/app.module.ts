@@ -10,10 +10,7 @@ import { appConfig } from "@/config";
 import { ProfileModule } from "@/modules/profile/profile.module";
 import { ReviewModule } from "@/modules/review/review.module";
 import { TenantFormSubmissionModule } from "@/modules/tenant-form-submission/tfs.module";
-import {
-  ApolloServerPluginLandingPageLocalDefault,
-  ApolloServerPluginLandingPageProductionDefault,
-} from "@apollo/server/plugin/landingPage/default";
+import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
@@ -42,13 +39,8 @@ import { GraphQLModule } from "@nestjs/graphql";
                 includeCookies: true,
               }),
             ]
-          : [
-              ApolloServerPluginLandingPageProductionDefault({
-                includeCookies: true,
-              }),
-            ]),
+          : []),
       ],
-      introspection: true,
       formatError: ({ message, extensions, locations, path }) => {
         message =
           (extensions?.originalError as any)?.statusCode === 403
