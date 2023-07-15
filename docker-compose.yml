@@ -11,6 +11,12 @@ services:
     image: redis
     container_name: rent-it-redis
     restart: always
+  pg-socket:
+    image: ashrhmn/pg-socket
+    container_name: rent-it-pg-socket
+    restart: always
+    env_file:
+      - .env
 networks:
   default:
     external: true
